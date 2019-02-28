@@ -1,0 +1,83 @@
+<odoo>
+  <data>
+    <!-- Inherit Form View -->
+    <record model="ir.ui.view" id="product_template_diet_view">
+      <field name="name">Diet Details</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
+      <field name="arch" type="xml">
+        <field name="type" position="after">
+          <field name="calories"/>
+          <field name="serving_size"/>
+          <field name="diet_item"/>
+        </field>
+        <notebook>
+          <page attrs="{'invisible': [('diet_item', '=', False)]}" name="Nutrient" string="Nutrients">
+            <field name="nutrient_ids" widget="One2many_list">
+              <tree editable="bottom" string="Nutrient">
+                <field name="nutrient_id"/>
+                <field name="value"/>
+                <field name="uom"/>
+                <field name="daily_percentage"/>
+              </tree>
+            </field>
+          </page>
+        </notebook>
+      </field>
+    </record>
+
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="product_template_diet_tree_view">
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_tree_view"/>
+      <field name="arch" type="xml">
+        <field name="categ_id" position="before">
+          <field name="calories"/>
+        </field>
+      </field>
+    </record>
+
+    <!-- Diet Items Action -->
+    <record id="product.diet_product_template_action" model="ir.actions.act_window">
+      <field name="name">Diet Items</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">product.template</field>
+      <field name="view_mode">tree,kanban,form</field>
+      <field name="view_type">form</field>
+      <field name="view_id" ref="product.product_template_tree_view"/>
+      <field name="context">{"search_default_filter_to_sell": 1, "default_diet_item": True}</field>
+      <field name="domain">[('diet_item', '=', True)]</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Click to add new Diet Item.</p><br />
+        <p>The Diet Items contains information to diet item selected.</p>
+      </field>
+    </record>
+
+    <!-- Menu Diet Items -->
+    <menuitem id="menu_product_template_diet_action"
+              name="Diet Items"
+              parent="sale.product_menu_catalog"
+              action="product.diet_product_template_action"
+              sequence="4" />
+
+    <!-- Menu Action -->
+    <!--<record id="menu_action_nutrient_meal" model="ir.actions.act_window">-->
+      <!--<field name="name">Nutrient</field>-->
+      <!--<field name="type">ir.actions.act_window</field>-->
+      <!--<field name="res_model">product.nutrient</field>-->
+      <!--<field name="view_mode">tree,kanban,form</field>-->
+      <!--<field name="view_type">form</field>-->
+      <!--<field name="help" type="html">-->
+        <!--<p class="oe_view_nocontent_create">Click to add new Nutrient.</p><br />-->
+      <!--</field>-->
+    <!--</record>-->
+
+    <!-- Menu -->
+    <!--<menuitem id="menu_meal_nutrient"-->
+              <!--name="Meal Nutrient"-->
+              <!--parent="sale.product_menu_catalog"-->
+              <!--action="menu_action_nutrient_meal"-->
+              <!--sequence="6" />-->
+
+  </data>
+</odoo>

@@ -1,0 +1,41 @@
+<odoo>
+  <data>
+    <!-- Inherit Form View -->
+    <record model="ir.ui.view" id="product_template_nutrient_view">
+      <field name="name">Nutrient Details</field>
+      <field name="model">product.template</field>
+      <field name="arch" type="xml">
+        <notebook>
+            <page attrs="{'invisible': [('diet_item', '=', False)]}" name="Nutrient" string="Nutrients">
+                <field name="Nutrient_ids" widget="One2many_list">
+                    <tree editable="bottom" string="Nutrient">
+                        <field name="nutrient_id"/>
+                        <field name="value"/>
+                        <field name="uom"/>
+                        <field name="daily_percentage"/>
+                    </tree>
+                </field>
+            </page>
+        </notebook>
+      </field>
+    </record>
+
+    <!-- Menu Action -->
+    <record id="menu_action_nutrient_meal" model="ir.actions.act_window">
+      <field name="name">Nutrient</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">product.nutrient</field>
+      <field name="view_type">form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Click to add new Nutrient.</p><br />
+      </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_meal_nutrient"
+              name="Meal Nutrient"
+              parent="sale.product_menu_catalog"
+              action="menu_action_nutrient_meal"
+              sequence="6" />
+  </data>
+</odoo>
